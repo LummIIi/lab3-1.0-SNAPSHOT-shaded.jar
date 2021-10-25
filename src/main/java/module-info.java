@@ -7,4 +7,6 @@ module se.iths.java21.lab3 {
 
     opens se.iths.java21.lab3 to javafx.fxml;
     exports se.iths.java21.lab3;
+    exports se.iths.java21.lab3.shapes;
+    opens se.iths.java21.lab3.shapes to javafx.fxml;
 }

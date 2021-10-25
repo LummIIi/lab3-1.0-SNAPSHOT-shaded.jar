@@ -6,7 +6,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.canvas.Canvas?>
+
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
@@ -15,6 +15,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.CheckBox?>
+<?import se.iths.java21.lab3.ResizableCanvas?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" styleClass="root"
             fx:controller="se.iths.java21.lab3.HelloController">
 
@@ -31,13 +32,13 @@
             </MenuBar>
             <ToolBar>
                 <HBox HBox.hgrow="ALWAYS" alignment="CENTER_LEFT" spacing="10">
-                    <TextField fx:id="brushsize" text="18"/>
+                    <TextField fx:id="shapeSize" text="18"/>
                     <ColorPicker fx:id="colorPicker"/>
-                    <CheckBox fx:id="eraser"/>
+                    <CheckBox fx:id="selector" text= "Selector" />
                     <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT" spacing="10">
-                        <Button fx:id="button" text="Circle" onMouseClicked="#onCircleButton" />
-                        <Button fx:id="button1" text="Square" onMouseClicked="#onButton1"/>
-                        <Button fx:id="button2" text="Rectangle" onMouseClicked="#onButton2"/>
+                        <Button fx:id="circleButton" text="Circle" onMouseClicked="#onCircleButton" />
+                        <Button fx:id="squareButton" text="Square" onMouseClicked="#onSquareButton"/>
+                        <Button fx:id="onTriangleButton" text="Triangle" onMouseClicked="#onTriangleButton"/>
                     </HBox>
                 </HBox>
             </ToolBar>
@@ -45,6 +46,14 @@
     </top>
 
     <center>
-        <Canvas fx:id="canvas" onMouseClicked="#drawCircle" height="400" width="400"/>
+        <ResizableCanvas fx:id="canvas" onMouseClicked="#onCanvasCLicked" height="400" width="400"/>
     </center>
+
+    <bottom>
+        <HBox>
+            <CheckBox fx:id="delete" text="Delete"/>
+        </HBox>
+
+
+    </bottom>
 </BorderPane>
