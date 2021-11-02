@@ -2,6 +2,7 @@ package se.iths.java21.lab3;
 // lektion 25/10 har information för hur jag implementerar allt som en jar fil.
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -22,13 +23,17 @@ import se.iths.java21.lab3.shapes.Triangel;
 import javax.imageio.ImageIO;
 
 import java.io.File;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 
 public class HelloController {
 
     Model model;
+
+    private Deque<Shape> undo = new ArrayDeque<>();
 
 
     private List<Shape> selectedShapes = new ArrayList<>();
@@ -122,6 +127,19 @@ public class HelloController {
 
     }
 
+    public void collision(ActionEvent event){
+        undo.removeLast();
+
+
+
+        }
+
+//        if(hit){
+//            model.setColor(colorPicker.getValue());
+//        }else
+//            model.setColor(colorPicker.getValue());
+
+
 
     public void onSquareButton(MouseEvent event) {
         model.circleProperty().setValue(false);
@@ -163,19 +181,6 @@ public class HelloController {
         }
 
     }
-
-//    public void onShapeSelected(MouseEvent mouseEvent) {
-//
-//        if (!selectedShapes.contains()) {
-//            selectedShapes.add(shape);
-//        }
-//    }
-//
-//        public void delete(ActionEvent actionEvent){
-//
-//
-//
-//    }
 
 
 }

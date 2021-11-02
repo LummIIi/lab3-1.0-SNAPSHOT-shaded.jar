@@ -34,11 +34,11 @@
                 <HBox HBox.hgrow="ALWAYS" alignment="CENTER_LEFT" spacing="10">
                     <TextField fx:id="shapeSize" text="18"/>
                     <ColorPicker fx:id="colorPicker"/>
-                    <CheckBox fx:id="selector" text= "Selector" />
+                    <CheckBox fx:id="Redo" text= "Redo" onMouseClicked="#collision" />
+                    <CheckBox fx:id="Undo" text= "Undo" onMouseClicked="#collision" />
                     <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT" spacing="10">
                         <Button fx:id="circleButton" text="Circle" onMouseClicked="#onCircleButton" />
                         <Button fx:id="squareButton" text="Square" onMouseClicked="#onSquareButton"/>
-                        <Button fx:id="onTriangleButton" text="Triangle" onMouseClicked="#onTriangleButton"/>
                     </HBox>
                 </HBox>
             </ToolBar>

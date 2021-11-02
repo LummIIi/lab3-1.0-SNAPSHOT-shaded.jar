@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import se.iths.java21.lab3.shapes.Shape;
 
+import java.util.Deque;
+
 public class Model {
 
     private final BooleanProperty circle;
@@ -15,6 +17,7 @@ public class Model {
     private ObservableList<Shape> shapes;
     private ObservableList<Shape> selectedShapes;
     private SimpleIntegerProperty shapesSizeInt;
+
 
     double[] xcoords = new double[3];
     double[] ycoords = new double[3];
