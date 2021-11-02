@@ -1,6 +1,7 @@
 package se.iths.java21.lab3;
 // lektion 25/10 har information för hur jag implementerar allt som en jar fil.
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,30 +14,29 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
-import se.iths.java21.lab3.shapes.Circle;
-import se.iths.java21.lab3.shapes.Shape;
-import se.iths.java21.lab3.shapes.Square;
-import se.iths.java21.lab3.shapes.Triangel;
+import se.iths.java21.lab3.shapes.*;
 
 
 import javax.imageio.ImageIO;
 
 import java.io.File;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class HelloController {
 
+
+    @FXML
+    private Button undo;
+    @FXML
+    private Button changeSize;
+    @FXML
+    private Button changeColor;
+    @FXML
+    private CheckBox selectMode;
+
     Model model;
-
-    private Deque<Shape> undo = new ArrayDeque<>();
-
-
-    private List<Shape> selectedShapes = new ArrayList<>();
 
     @FXML
     private TextField shapeSize;
@@ -53,13 +53,13 @@ public class HelloController {
     @FXML
     private Button squareButton;
 
-    @FXML
-    private Button onTriangleButton;
 
     @FXML
-    private CheckBox selector;
+    private Button delete;
+
     @FXML
-    private CheckBox delete;
+    private Button redo;
+
 
     @FXML
     private TextField textField1;
@@ -69,6 +69,8 @@ public class HelloController {
         model = new Model();
         shapeSize.textProperty().bindBidirectional(model.sizeOfShapeProperty());
         colorPicker.valueProperty().bindBidirectional(model.colorProperty());
+        selectMode.selectedProperty().bindBidirectional(model.selectModeProperty());
+
 
         canvas.widthProperty().addListener(observable -> draw());
         canvas.heightProperty().addListener(observable -> draw());
@@ -83,20 +85,33 @@ public class HelloController {
         double y = mouseEvent.getY();
 
 
-        if (model.isCircle()) {
-            model.getShapes().add(new Circle(x, y, model.getSizeOfShapeAsDouble(), model.getColor()));
-        } else if (model.isSquare()) {
-            model.getShapes().add(new Square(x, y, model.getSizeOfShapeAsDouble(), model.getColor()));
+        if (model.isSelectMode()) {
+
+            model.getShapes().stream()
+                    .filter(shape -> shape.isInside(mouseEvent.getX(), mouseEvent.getY()))
+                    .findFirst().ifPresent(shape -> {
+                        if (model.getSelectedShapes().contains(shape)) {
+                            model.getSelectedShapes().remove(shape);
+                            shape.setBorderColor(Color.TRANSPARENT);
+                        } else {
+                            model.getSelectedShapes().add(shape);
+                            shape.setBorderColor(Color.RED);
+                        }
+                    });
+
+        } else {
+
+            if (model.isCircle()) {
+                model.getShapes().add(ShapesFactory.circleOf(x, y, model.getSizeOfShapeAsDouble(), model.getColor()));
+
+
+            } else if (model.isSquare()) {
+                model.getShapes().add(ShapesFactory.squareOf(x, y, model.getSizeOfShapeAsDouble(), model.getColor()));
+
+            }
+
         }
-//        else if (model.isTriangle()){
-//            model.getShapes().add( new Triangel(model.xcoords,model.ycoords, 3,Color.BLACK));
-//            model.xcoords[model.clickCount] = mouseEvent.getX();
-//            model.ycoords[model.clickCount] = mouseEvent.getY();
 
-
-        model.getShapes().stream().filter(shape -> shape.isInside(mouseEvent.getX(), mouseEvent.getY()))
-                .findFirst().ifPresent(shape -> shape.setColor(Color.RED));
-//
 
         draw();
 
@@ -116,29 +131,21 @@ public class HelloController {
     }
 
     public void onExit() {
+
         Platform.exit();
     }
+
+    public void onSelected() {
+
+    }
+
 
     public void onCircleButton(MouseEvent event) {
         model.circleProperty().setValue(true);
         model.squareProperty().setValue(false);
         model.triangleProperty().setValue(false);
 
-
     }
-
-    public void collision(ActionEvent event){
-        undo.removeLast();
-
-
-
-        }
-
-//        if(hit){
-//            model.setColor(colorPicker.getValue());
-//        }else
-//            model.setColor(colorPicker.getValue());
-
 
 
     public void onSquareButton(MouseEvent event) {
@@ -150,37 +157,63 @@ public class HelloController {
     }
 
 
-    public void onTriangleButton(MouseEvent event) {
-        model.circleProperty().setValue(false);
-        model.squareProperty().setValue(false);
-        model.triangleProperty().setValue(true);
-
-    }
-
     public void draw() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         gc.clearRect(0,0,canvas.getWidth(), canvas.getHeight());
 
         for (var shape : model.getShapes()) {
-            if (shape.getClass() == Square.class) {
-                gc.setFill(shape.getColor());
-                gc.fillRect(shape.getX(), shape.getY(), shape.getSize(), shape.getSize());
-
-
-            } else if (shape.getClass() == Circle.class) {
-                gc.setFill(shape.getColor());
-                gc.fillOval(shape.getX(), shape.getY(), shape.getSize(), shape.getSize());
-
-            } else if (shape.getClass() == Triangel.class){
-                gc.setFill(shape.getColor());
-                gc.fillPolygon(model.xcoords, model.ycoords, 3);
-
-            }
+            shape.draw(gc);
+        }
 
         }
+
+    public void delete(ActionEvent event) {
+
+        model.getShapes().stream()
+                .filter(shape -> model.getSelectedShapes().contains(shape))
+                .findFirst().ifPresent(shape -> model.getShapes().remove(shape));
+        draw();
+
+
+    }
+
+    public void changeSize(ActionEvent event) {
+        for (Shape shape : model.getSelectedShapes()) {
+            shape.setSize(model.getSizeOfShapeAsDouble());
+
+
+        }
+        draw();
+    }
+
+    public void changeColor(ActionEvent event) {
+        for (Shape shape : model.getSelectedShapes()) {
+            shape.setColor(model.getColor());
+
+        }
+        draw();
+    }
+
+    public void UndoLast(ActionEvent event) {
+        int value =1;
+        try {
+            for (int i = 0; i < value; i++) {
+                Collections.reverse(model.getShapes());
+                model.getShapes().remove(i);
+
+
+            }
+        }catch (IndexOutOfBoundsException e){
+            
+        }
+
+           draw();
+       }
+
+
+
 
     }
 
 
-}

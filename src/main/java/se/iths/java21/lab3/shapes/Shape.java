@@ -3,17 +3,28 @@ package se.iths.java21.lab3.shapes;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Shape {
+public abstract class Shape {
     private double x;
     private double y;
     private double size;
     private Color color;
+    private Color borderColor;
+
 
     public Shape(double x, double y, double size, Color color) {
         this.x = x;
         this.y = y;
         this.size = size;
         this.color = color;
+        this.borderColor = Color.TRANSPARENT;
+    }
+
+    public Color getBorderColor() {
+        return borderColor;
+    }
+
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
     }
 
     public boolean isInside(double x, double y) {
@@ -24,11 +35,6 @@ public class Shape {
     public Shape(double x, double y, Color color) {
     }
 
-
-    public void draw(GraphicsContext graphicsContext){
-
-
-    }
 
     public double getSize() {
         return size;
@@ -62,5 +68,10 @@ public class Shape {
         this.color = color;
     }
 
-    }
+    public abstract void draw(GraphicsContext gc);
+
+
+
+
+}
 

@@ -2,10 +2,13 @@ package se.iths.java21.lab3;
 
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import se.iths.java21.lab3.shapes.Shape;
+import javafx.collections.ListChangeListener.Change;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class Model {
@@ -17,6 +20,15 @@ public class Model {
     private ObservableList<Shape> shapes;
     private ObservableList<Shape> selectedShapes;
     private SimpleIntegerProperty shapesSizeInt;
+
+
+
+    private BooleanProperty selectMode;
+
+
+
+
+
 
 
     double[] xcoords = new double[3];
@@ -35,15 +47,29 @@ public class Model {
         this.shapes = FXCollections.observableArrayList();
         this.selectedShapes = FXCollections.observableArrayList();
         this.shapesSizeInt = new SimpleIntegerProperty();
+        this.selectMode = new SimpleBooleanProperty();
+
 
         this.sizeOfShape.set("12");
-        this.color = new SimpleObjectProperty<>(Color.RED);
+        this.color = new SimpleObjectProperty<>(Color.BLACK);
 
     }
 
-    public int getShapesSizeInt() {
-        return shapesSizeInt.get();
+
+
+    public boolean isSelectMode() {
+        return selectMode.get();
     }
+
+    public BooleanProperty selectModeProperty() {
+        return selectMode;
+    }
+
+    public void setSelectMode(boolean selectMode) {
+        this.selectMode.set(selectMode);
+    }
+
+
 
     public SimpleIntegerProperty shapesSizeIntProperty() {
         return shapesSizeInt;
@@ -132,4 +158,7 @@ public class Model {
     public void setCircle(boolean circle) {
         this.circle.set(circle);
     }
+
+
+
 }

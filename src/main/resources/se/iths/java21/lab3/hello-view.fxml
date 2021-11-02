@@ -34,8 +34,8 @@
                 <HBox HBox.hgrow="ALWAYS" alignment="CENTER_LEFT" spacing="10">
                     <TextField fx:id="shapeSize" text="18"/>
                     <ColorPicker fx:id="colorPicker"/>
-                    <CheckBox fx:id="Redo" text= "Redo" onMouseClicked="#collision" />
-                    <CheckBox fx:id="Undo" text= "Undo" onMouseClicked="#collision" />
+                    <CheckBox fx:id="selectMode" text="Select Mode"  />
+                    <Button fx:id="Undo" text= "Undo"  onAction="#onSelected" />
                     <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT" spacing="10">
                         <Button fx:id="circleButton" text="Circle" onMouseClicked="#onCircleButton" />
                         <Button fx:id="squareButton" text="Square" onMouseClicked="#onSquareButton"/>
@@ -51,7 +51,10 @@
 
     <bottom>
         <HBox>
-            <CheckBox fx:id="delete" text="Delete"/>
+            <Button fx:id="delete" text="Delete" onAction="#delete" />
+            <Button fx:id="changeSize" text="Change Size" onAction="#changeSize" />
+            <Button fx:id="changeColor" text="Change Color" onAction="#changeColor"/>
+            <Button fx:id="undo" text="Undo" lineSpacing="20" onAction="#UndoLast"/>
         </HBox>
 
 
