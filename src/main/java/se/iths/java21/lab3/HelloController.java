@@ -1,5 +1,6 @@
 package se.iths.java21.lab3;
 // lektion 25/10 har information för hur jag implementerar allt som en jar fil.
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -109,11 +110,15 @@ public class HelloController {
 
         } else {
 
+            ObservableList<Shape> templist = model.getTempList();
+
             if (model.isCircle()) {
+                model.undo.addLast(templist);
                 model.getShapes().add(ShapesFactory.circleOf(x, y, model.getSizeOfShapeAsDouble(), model.getColor()));
 
 
             } else if (model.isSquare()) {
+                model.undo.addLast(templist);
                 model.getShapes().add(ShapesFactory.squareOf(x, y, model.getSizeOfShapeAsDouble(), model.getColor()));
 
             }
@@ -168,15 +173,17 @@ public class HelloController {
     public void draw() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        gc.clearRect(0,0,canvas.getWidth(), canvas.getHeight());
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         for (var shape : model.getShapes()) {
             shape.draw(gc);
         }
 
-        }
+    }
 
     public void delete(ActionEvent event) {
+        ObservableList<Shape> templist = model.getTempList();
+        model.undo.addLast(templist);
 
         model.getShapes().stream()
                 .filter(shape -> model.getSelectedShapes().contains(shape))
@@ -187,6 +194,9 @@ public class HelloController {
     }
 
     public void changeSize(ActionEvent event) {
+        ObservableList<Shape> templist = model.getTempList();
+        model.undo.addLast(templist);
+
         for (Shape shape : model.getSelectedShapes()) {
             shape.setSize(model.getSizeOfShapeAsDouble());
 
@@ -196,6 +206,9 @@ public class HelloController {
     }
 
     public void changeColor(ActionEvent event) {
+        ObservableList<Shape> templist = model.getTempList();
+
+        model.undo.addLast(templist);
         for (Shape shape : model.getSelectedShapes()) {
             shape.setColor(model.getColor());
 
@@ -204,29 +217,18 @@ public class HelloController {
     }
 
     public void UndoLast(ActionEvent event) {
-        model.getShapes();
-        model.setUndo(model.getShapes().addAll(model.getShapes()));
-        model.getUndo().pop();
+        if(model.undo.isEmpty())
+            return;
+
+        model.setShapes(model.undo.removeLast());
         draw();
 
-//        int value =1;
-//        try {
-//            for (int i = 0; i < value; i++) {
-//                Collections.reverse(model.getShapes());
-//                model.getShapes().remove(i);
-//
-//
-//            }
-//        }catch (IndexOutOfBoundsException e){
-//
-//        }
-//
-//           draw();
+
     }
 
 
     public void onSaveAsSvg(ActionEvent event) throws IOException {
-
+        Svgfile.saveFile(model);
 
 
     }

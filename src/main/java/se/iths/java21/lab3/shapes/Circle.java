@@ -10,6 +10,22 @@ public  class Circle extends Shape{
         super(x, y, size, color);
     }
 
+    public Circle(Shape shape) {
+        super(shape);
+    }
+
+    @Override
+    public String drawSVG() {
+            String convertedColor = "#" +getColor().toString().substring(2,10);
+
+
+            return "<circle cx=\"" +getX() + "\" " +
+                    "cy=\""+getY() + "\" " +
+                    "r=\"" + getSize() +"\" " +
+                    "fill=\"" + convertedColor +"\" />";
+
+    }
+
     @Override
     public boolean isInside(double x, double y) {
 

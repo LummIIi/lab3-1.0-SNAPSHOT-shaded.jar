@@ -5,8 +5,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
+import se.iths.java21.lab3.shapes.Circle;
 import se.iths.java21.lab3.shapes.Shape;
 import javafx.collections.ListChangeListener.Change;
+import se.iths.java21.lab3.shapes.ShapesFactory;
+import se.iths.java21.lab3.shapes.Square;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -20,7 +23,7 @@ public class Model {
     private ObservableList<Shape> shapes;
     private ObservableList<Shape> selectedShapes;
     private SimpleIntegerProperty shapesSizeInt;
-    private Deque<ObservableList<Shape>> undo;
+    public Deque<ObservableList<Shape>> undo;
 
 
     private BooleanProperty selectMode;
@@ -50,13 +53,6 @@ public class Model {
 
     }
 
-    public Deque<ObservableList<Shape>> getUndo() {
-        return undo;
-    }
-
-    public void setUndo(Deque<ObservableList<Shape>> undo) {
-        this.undo = undo;
-    }
 
     public boolean isSelectMode() {
         return selectMode.get();
@@ -161,6 +157,19 @@ public class Model {
     }
 
 
-    public void setUndo(boolean addAll) {
+    public ObservableList<Shape> getTempList() {
+        ObservableList<Shape> tempList = FXCollections.observableArrayList();
+
+        for (Shape shape : shapes) {
+
+            if (shape.getClass() == Square.class)
+                tempList.add(ShapesFactory.squareOf(shape));
+            if (shape.getClass() == Circle.class)
+                tempList.add(ShapesFactory.circleOf(shape));
+
+
+        }
+        return tempList;
+
     }
 }

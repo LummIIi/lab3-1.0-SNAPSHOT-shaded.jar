@@ -36,7 +36,6 @@
                     <TextField fx:id="shapeSize" text="18"/>
                     <ColorPicker fx:id="colorPicker"/>
                     <CheckBox fx:id="selectMode" text="Select Mode"  />
-                    <Button fx:id="Undo" text= "Undo"  onAction="#onSelected" />
                     <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT" spacing="10">
                         <Button fx:id="circleButton" text="Circle" onMouseClicked="#onCircleButton" />
                         <Button fx:id="squareButton" text="Square" onMouseClicked="#onSquareButton"/>

@@ -18,10 +18,19 @@ public abstract class Shape {
         this.color = color;
         this.borderColor = Color.TRANSPARENT;
     }
+    public Shape(Shape shape) {
+        this.x = shape.x;
+        this.y = shape.y;
+        this.size = shape.size;
+        this.color = shape.color;
+        this.borderColor = Color.TRANSPARENT;
+    }
 
     public Color getBorderColor() {
         return borderColor;
     }
+
+    public abstract String drawSVG();
 
     public void setBorderColor(Color borderColor) {
         this.borderColor = borderColor;

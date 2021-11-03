@@ -12,4 +12,11 @@ public class ShapesFactory {
     public static Square squareOf(double x, double y, double size, Color color){
         return new Square(x,y,size,color);
     }
+    public static Circle circleOf(Shape shape){
+        return new Circle(shape);
+    }
+
+    public static Square squareOf(Shape shape){
+        return new Square(shape);
+    }
 }

@@ -9,6 +9,23 @@ public class Square extends Shape {
         super(x, y, size, color);
     }
 
+    public Square(Shape shape) {
+        super(shape);
+    }
+
+    @Override
+    public String drawSVG() {
+        String convertedColor = "#" +getColor().toString().substring(2,10);
+
+
+        return "<rect x=\"" +getX() + "\" " +
+                "y=\""+getY() + "\" " +
+                "width=\"" + getSize() +"\" " +
+                "height=\"" + getSize() +"\" "+
+                "fill=\"" + convertedColor +"\" />";
+
+    }
+
     @Override
     public boolean isInside(double x, double y) {
 
