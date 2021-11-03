@@ -28,6 +28,7 @@
                 <Menu text="File">
                     <MenuItem onAction="#onSave" text="Save"/>
                     <MenuItem onAction="#onExit" text="Exit"/>
+                    <MenuItem onAction="#onSaveAsSvg" text="Save as SVG"/>
                 </Menu>
             </MenuBar>
             <ToolBar>

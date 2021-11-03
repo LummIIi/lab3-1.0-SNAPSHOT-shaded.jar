@@ -2,6 +2,7 @@ package se.iths.java21.lab3;
 // lektion 25/10 har information för hur jag implementerar allt som en jar fil.
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,15 +12,22 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelBuffer;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.SVGPath;
+import javafx.stage.FileChooser;
 import se.iths.java21.lab3.shapes.*;
 
 
 import javax.imageio.ImageIO;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -196,24 +204,32 @@ public class HelloController {
     }
 
     public void UndoLast(ActionEvent event) {
-        int value =1;
-        try {
-            for (int i = 0; i < value; i++) {
-                Collections.reverse(model.getShapes());
-                model.getShapes().remove(i);
+        model.getShapes();
+        model.setUndo(model.getShapes().addAll(model.getShapes()));
+        model.getUndo().pop();
+        draw();
+
+//        int value =1;
+//        try {
+//            for (int i = 0; i < value; i++) {
+//                Collections.reverse(model.getShapes());
+//                model.getShapes().remove(i);
+//
+//
+//            }
+//        }catch (IndexOutOfBoundsException e){
+//
+//        }
+//
+//           draw();
+    }
 
 
-            }
-        }catch (IndexOutOfBoundsException e){
-            
-        }
-
-           draw();
-       }
-
+    public void onSaveAsSvg(ActionEvent event) throws IOException {
 
 
 
     }
+}
 
 

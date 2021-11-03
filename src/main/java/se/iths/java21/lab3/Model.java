@@ -20,21 +20,15 @@ public class Model {
     private ObservableList<Shape> shapes;
     private ObservableList<Shape> selectedShapes;
     private SimpleIntegerProperty shapesSizeInt;
-
+    private Deque<ObservableList<Shape>> undo;
 
 
     private BooleanProperty selectMode;
 
 
-
-
-
-
-
     double[] xcoords = new double[3];
     double[] ycoords = new double[3];
     int clickCount = 0;
-
 
 
     private final ObjectProperty<Color> color;
@@ -48,6 +42,7 @@ public class Model {
         this.selectedShapes = FXCollections.observableArrayList();
         this.shapesSizeInt = new SimpleIntegerProperty();
         this.selectMode = new SimpleBooleanProperty();
+        this.undo = new ArrayDeque<>();
 
 
         this.sizeOfShape.set("12");
@@ -55,7 +50,13 @@ public class Model {
 
     }
 
+    public Deque<ObservableList<Shape>> getUndo() {
+        return undo;
+    }
 
+    public void setUndo(Deque<ObservableList<Shape>> undo) {
+        this.undo = undo;
+    }
 
     public boolean isSelectMode() {
         return selectMode.get();
@@ -68,7 +69,6 @@ public class Model {
     public void setSelectMode(boolean selectMode) {
         this.selectMode.set(selectMode);
     }
-
 
 
     public SimpleIntegerProperty shapesSizeIntProperty() {
@@ -132,9 +132,10 @@ public class Model {
     }
 
 
-    public Double getSizeOfShapeAsDouble(){
+    public Double getSizeOfShapeAsDouble() {
         return Double.parseDouble(getSizeOfShape());
     }
+
     public String getSizeOfShape() {
         return sizeOfShape.get();
     }
@@ -160,5 +161,6 @@ public class Model {
     }
 
 
-
+    public void setUndo(boolean addAll) {
+    }
 }
