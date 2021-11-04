@@ -26,9 +26,9 @@
         <VBox>
             <MenuBar>
                 <Menu text="File">
-                    <MenuItem onAction="#onSave" text="Save"/>
-                    <MenuItem onAction="#onExit" text="Exit"/>
+                    <MenuItem onAction="#onSave" text="Save as SnapShot png"/>
                     <MenuItem onAction="#onSaveAsSvg" text="Save as SVG"/>
+                    <MenuItem onAction="#onExit" text="Exit"/>
                 </Menu>
             </MenuBar>
             <ToolBar>
