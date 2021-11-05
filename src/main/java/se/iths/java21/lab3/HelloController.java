@@ -1,5 +1,5 @@
 package se.iths.java21.lab3;
-// lektion 25/10 har information för hur jag implementerar allt som en jar fil.
+
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -72,6 +72,15 @@ public class HelloController {
 
     @FXML
     private TextField textField1;
+
+
+    public HelloController(){
+
+    }
+
+    public HelloController(Model model) {
+        this.model = model;
+    }
 
 
     public void initialize() {
